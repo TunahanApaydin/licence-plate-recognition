@@ -133,7 +133,7 @@ class YOLOv9ONNXInference(object):
         return img
     
     def onnx_session(self):
-        session_opt = ort.SessionOptions()
+        #session_opt = ort.SessionOptions()
         
         if self.inference_configs["device"] == "cpu":
             providers = ["CPUExecutionProvider"]
@@ -147,7 +147,7 @@ class YOLOv9ONNXInference(object):
         self.input_shape = self.model_inputs[0].shape
         self.model_output = self.inference_session.get_outputs()
         self.output_names = [self.model_output[i].name for i in range(len(self.model_output))]
-        #self.model_input_height, self.model_input_width = self.input_shape[2:]
+        #self.model_input_height, self.model_input_width = self.input_shape[2:] # TODO: find a way to get model input shape
         
     def check_model_file(self):
         if not os.path.exists(self.inference_configs["weights"]):
@@ -171,7 +171,7 @@ class YOLOv9ONNXInference(object):
             if not os.path.isdir(self.inference_configs["image"]):
                 raise FileNotFoundError("The specified file: {} was not found!".format(self.inference_configs["image"]))
             
-            # ! write dataloader instead of this
+            # TODO: write dataloader instead of this
             file_sorter = FileSorter()
             _, image_file_paths = file_sorter.get_sorted_names(self.inference_configs["image"], "*.jpg")
             
