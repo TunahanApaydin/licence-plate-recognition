@@ -16,9 +16,8 @@ import platform
 from file_sorter import FileSorter
 
 class YOLOv9ONNXInference(object):
-    inference_configs = None
     
-    def __init__(self) -> None:
+    def __init__(self, configs) -> None:
         self.inference_session = None
         self.model_inputs = None
         self.input_names = None
@@ -29,7 +28,8 @@ class YOLOv9ONNXInference(object):
         self.model_input_width = 640
         self.image_input_height = None
         self.image_input_width = None
-        #self.inference_configs = None
+        self.configs = configs
+        
     
     def preprocess(self, image):
         image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
@@ -74,7 +74,7 @@ class YOLOv9ONNXInference(object):
         # pred = list(zip(xmins, ymins, xmaxs, ymaxs, scores, class_ids))
             
         #indices = nms(boxes, scores, class_ids, 0.45)
-        indices = cv2.dnn.NMSBoxes(boxes, scores, score_threshold=0.3, nms_threshold=0.45)
+        indices = cv2.dnn.NMSBoxes(boxes, scores, score_threshold=0.3, nms_threshold=0.45) # TODO: use inference.yaml
         detections = []
         for bbox, score, label in zip(self.xywh2xyxy(boxes[indices]), scores[indices], class_ids[indices]):
             detections.append({
@@ -135,12 +135,12 @@ class YOLOv9ONNXInference(object):
     def onnx_session(self):
         #session_opt = ort.SessionOptions()
         
-        if self.inference_configs["device"] == "cpu":
+        if self.configs.device == "cpu":
             providers = ["CPUExecutionProvider"]
         else:
             providers = ["CUDAExecutionProvider", "CPUExecutionProvider"]
             
-        self.inference_session = ort.InferenceSession(self.inference_configs["weights"], providers=providers)
+        self.inference_session = ort.InferenceSession(self.configs.weight, providers=providers)
         
         self.model_inputs = self.inference_session.get_inputs()
         self.input_names = [self.model_inputs[i].name for i in range(len(self.model_inputs))]
@@ -149,12 +149,12 @@ class YOLOv9ONNXInference(object):
         self.output_names = [self.model_output[i].name for i in range(len(self.model_output))]
         #self.model_input_height, self.model_input_width = self.input_shape[2:] # TODO: find a way to get model input shape
         
-    def check_model_file(self):
-        if not os.path.exists(self.inference_configs["weights"]):
-            raise Exception("The specified file: {} was not found!".format(self.inference_configs["weights"]))
+    # def check_model_file(self):
+    #     if not os.path.exists(self.inference_configs["weights"]):
+    #         raise Exception("The specified file: {} was not found!".format(self.inference_configs["weights"]))
         
-        extension = os.path.splitext(self.inference_configs["weights"])[-1].lower()
-        assert extension == ".onnx" , "{}, is an unknown file format. Use .onnx format".format(extension)
+    #     extension = os.path.splitext(self.inference_configs["weights"])[-1].lower()
+    #     assert extension == ".onnx" , "{}, is an unknown file format. Use .onnx format".format(extension)
     
     @classmethod
     def read_config_file(cls, file_path: str) -> None:
@@ -163,17 +163,17 @@ class YOLOv9ONNXInference(object):
     
     def run(self): 
         # Validate model file path
-        self.check_model_file()
+        #self.check_model_file()
     
-        self.onnx_session()
+        #self.onnx_session()
         
-        if self.inference_configs["image"]:
-            if not os.path.isdir(self.inference_configs["image"]):
-                raise FileNotFoundError("The specified file: {} was not found!".format(self.inference_configs["image"]))
+        if self.configs.image:
+            if not os.path.isdir(self.configs.source):
+                raise FileNotFoundError("The specified file: {} was not found!".format(self.configs.source))
             
             # TODO: write dataloader instead of this
             file_sorter = FileSorter()
-            _, image_file_paths = file_sorter.get_sorted_names(self.inference_configs["image"], "*.jpg")
+            _, image_file_paths = file_sorter.get_sorted_names(self.configs.source, "*.jpg")
             
             for image_path in image_file_paths:
                 total_start = time.time()
@@ -198,7 +198,7 @@ class YOLOv9ONNXInference(object):
                 osd_image = self.draw_bbox(image, detection)
                 draw_end = time.time()
                 
-                cv2.imwrite(self.inference_configs["result_save_path"] + image_name, osd_image.astype(np.uint8))
+                #cv2.imwrite(self.inference_configs["result_save_path"] + image_name, osd_image.astype(np.uint8))
                 
                 total_end = time.time()
                 
@@ -217,104 +217,12 @@ class YOLOv9ONNXInference(object):
                 print("total_time: ", total_time)
                 print("FPS: ", 1.0/total_time)
 
-        # output_file = "yolo_out_py.avi"
-        # if (image):
-        #     # Open the image file
-        #     if not os.path.isfile(image):
-        #         print("Input image file ", image, " doesn't exist")
-        #         sys.exit(1)
-        #     cap = cv2.VideoCapture(image)
-        #     output_file = image[:-4]+'_yolo_out_py.jpg'
-        # elif (video):
-        #     # Open the video file
-        #     if not os.path.isfile(video):
-        #         print("Input video file ", video, " doesn't exist")
-        #         sys.exit(1)
-        #     cap = cv2.VideoCapture(video)
-        #     output_file = video[:-4]+'_yolo_out_py.avi'
-        # else:
-        #     # Webcam input
-        #     cap = cv2.VideoCapture(0)
-
-        # # Get the video writer initialized to save the output video
-        # if (not image):
-        #     vid_writer = cv2.VideoWriter(output_file, cv2.VideoWriter_fourcc('M','J','P','G'), 30, (round(cap.get(cv2.CAP_PROP_FRAME_WIDTH)),round(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))))
-        
-        # # Check the device information and create a session
-        # device = device
-        # so = rt.SessionOptions()
-        # so.log_severity_level = 3
-        # if(device == 'cpu'):
-        #     print("Device type selected is 'cpu' which is the default CPU Execution Provider (MLAS)")
-        #     #Specify the path to the ONNX model on your machine and register the CPU EP
-        #     sess = rt.InferenceSession(model, so, providers=['CPUExecutionProvider'])
-        # else:
-        #     providers = ['CUDAExecutionProvider', 'CPUExecutionProvider']
-        #     sess = rt.InferenceSession(model, so, providers=providers, provider_options=[{'device_type' : device}])
-        #     print("Device type selected is: " + device + " using the OpenVINO Execution Provider")
-        #     '''
-        #     other 'device_type' options are: (Any hardware target can be assigned if you have the access to it)
-        #     'CPU_FP32', 'GPU_FP32', 'GPU_FP16', 'MYRIAD_FP16', 'VAD-M_FP16'
-        #     '''
-
-        # input_name = sess.get_inputs()[0].name
-        
-        # while cv2.waitKey(1) < 0:
-        #     # get frame from the video
-        #     has_frame, frame = cap.read()
-        #     # Stop the program if reached end of video
-        #     if not has_frame:
-        #         print("Done processing !!!")
-        #         print("Output file is stored as ", output_file)
-        #         has_frame=False
-        #         cv2.waitKey(3000)
-        #         # Release device
-        #         cap.release()
-        #         break
-                
-        #     input_size = 640
-        #     original_image = frame
-        #     #original_image = cv2.cvtColor(original_image, cv2.COLOR_BGR2RGB)
-        #     original_image_size = original_image.shape[:2]
-
-        #     image_data = image_preprocess(np.copy(original_image), [input_size, input_size])
-        #     image_data = image_data.transpose(2,0,1)
-        #     image_data = image_data[np.newaxis, ...].astype(np.float32)
-            
-        #     #image_data = image_data.astype(np.float32)
-        
-        #     outputs = sess.get_outputs()
-        #     output_names = list(map(lambda output: output.name, outputs))
-
-        #     start = time.time()
-        #     detections = sess.run(output_names, {input_name: image_data})[0]
-        #     end = time.time()
-        #     inference_time = end - start
-
-        #     detection = postprocess(detections, original_image_size)
-        #     #pred_bbox = postprocess_bbbox(detections)
-        #     #bboxes = postprocess_boxes(detections, original_image_size, input_size, 0.25)
-        #     #bboxes = nms(b, 0.213, method='nms')
-        #     image = draw_bbox(original_image, detection)
-
-        #     cv2.putText(image,device,(10,20),cv2.FONT_HERSHEY_COMPLEX,0.5,(255,255,255),1)
-        #     cv2.putText(image,'FPS: {}'.format(1.0/inference_time),(10,40),cv2.FONT_HERSHEY_COMPLEX,0.5,(255,255,255),1)
-
-        #     # Write the frame with the detection boxes
-        #     # if (image):
-        #     cv2.imwrite("lp_results/res3.jpg", image.astype(np.uint8))
-        #     # else:
-        #     #     vid_writer.write(image.astype(np.uint8))
+# if __name__ == "__main__":
+#     inference_conf_path = "inference.yaml"
+#     YOLOv9ONNXInference().read_config_file(file_path=inference_conf_path)
     
-        #     #image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        #     cv2.imshow(win_name, image)
-
-if __name__ == "__main__":
-    inference_conf_path = "inference.yaml"
-    YOLOv9ONNXInference().read_config_file(file_path=inference_conf_path)
+#     inference = YOLOv9ONNXInference()
+#     inference.run()
     
-    inference = YOLOv9ONNXInference()
-    inference.run()
-    
-    print("spgsdgb")
+#     print("spgsdgb")
     
