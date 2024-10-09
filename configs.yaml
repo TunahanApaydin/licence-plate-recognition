@@ -1,0 +1,60 @@
+inference:
+    weight: /home/kule23/Documents/Tuna/projects/python-sql/best.onnx  # model path or triton URL
+    source: test_videos/  # file/dir/URL/glob/screen/0(webcam)
+    image: false
+    video: true
+    result_save_path: test_videos/
+    data: null  # dataset.yaml path
+    imgsz: [640, 640]  # inference size (height, width)
+    conf_thres: 0.25  # confidence threshold
+    iou_thres: 0.45  # NMS IOU threshold
+    max_det: 10  # maximum detections per image
+    device: "gpu"  # cuda device, i.e. 0 or 0,1,2,3 or cpu
+    view_img: False  # show results
+    save_txt: False  # save results to *.txt
+    save_conf: False  # save confidences in --save-txt labels
+    save_crop: False  # save cropped prediction boxes
+    nosave: False  # do not save images/videos
+    classes: null  # filter by class: --class 0, or --class 0 2 3
+    agnostic_nms: False  # class-agnostic NMS
+    augment: False  # augmented inference
+    visualize: False  # visualize features
+    update: False  # update all models
+    project: lp_results  # save results to project/name
+    name: lpd  # save results to project/name
+    exist_ok: False  # existing project/name ok, do not increment
+    line_thickness: 3  # bounding box thickness (pixels)
+    hide_labels: False  # hide labels
+    hide_conf: False  # hide confidences
+    half: False  # use FP16 half-precision inference
+    dnn: False  # use OpenCV DNN for ONNX inference
+    vid_stride: 1  # video frame-rate stride
+    class_names: ["lp"]
+
+tracking:
+    track_thresh: 0.5
+    track_buffer: 30
+    match_thresh: 0.8
+    frame_rate: 30
+    aspect_ratio_thresh: 4.6
+    min_box_area: 10
+    mot20: false
+
+ocr:
+    text_threshold: 0.7           # Text confidence threshold
+    min_size: 10                  # Filter text box smaller than minimum value in pixel
+    ycenter_ths: 0.5              # Maximum shift in y direction. Boxes with different level should not be merged.
+    height_ths: 0.5               # Maximum different in box height. Boxes with very different text size should not be merged.
+    width_ths: 0.5                # Maximum horizontal distance to merge boxes.
+    min_bbox_height: 100          # Minumum detected bbox height
+    max_detected_text_length: 10  # Maximum detected text length
+    min_lp_text_length: 7         # Minumum licence plate text length
+    max_lp_text_length: 10        # Maximum licence plate text length
+    lang_list: ["tr"]
+    allowlist: ABCDEFGHIJKLMNOPRSTUVYZ0123456789
+    lp_pattern_regex: ^(0[1-9]|[1-7][0-9]|8[01])(([A-Z])(\d{4,5})|([A-Z]{2})(\d{3,4})|([A-Z]{3})(\d{2,3}))$     #Turkish LP pattern regex
+    provincial_lp_codes: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20'
+                        , '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40'
+                        , '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59', '60'
+                        , '61', '62', '63', '64', '65', '66', '67', '68', '69', '70', '71', '72', '73', '74', '75', '76', '77', '78', '79', '80', '81']
+
