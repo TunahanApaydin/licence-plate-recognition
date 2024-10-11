@@ -54,8 +54,8 @@ class YOLOv9ONNXInference(object):
     def postprocess(self, outputs):
         predictions = np.squeeze(outputs).T
         scores = np.max(predictions[:, 4:], axis=1)
-        predictions = predictions[scores > 0.25, :]
-        scores = scores[scores > 0.25]
+        predictions = predictions[scores > self.configs.conf_thres, :]
+        scores = scores[scores > self.configs.conf_thres]
         class_ids = np.argmax(predictions[:, 4:], axis=1)
 
         # Rescale box
@@ -74,7 +74,7 @@ class YOLOv9ONNXInference(object):
         # pred = list(zip(xmins, ymins, xmaxs, ymaxs, scores, class_ids))
             
         #indices = nms(boxes, scores, class_ids, 0.45)
-        indices = cv2.dnn.NMSBoxes(boxes, scores, score_threshold=0.3, nms_threshold=0.45) # TODO: use inference.yaml
+        indices = cv2.dnn.NMSBoxes(boxes, scores, score_threshold=self.configs.conf_thres, nms_threshold=self.configs.iou_thres)
         detections = []
         for bbox, score, label in zip(self.xywh2xyxy(boxes[indices]), scores[indices], class_ids[indices]):
             detections.append({
