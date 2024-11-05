@@ -1,21 +1,13 @@
 import os
 import cv2
-import torch
-
 from torch.utils.data import Dataset
-from torchvision import datasets
-
-from file_sorter import FileSorter
+from file_sorter import get_sorted_file_paths
 
 class ImageLoader(Dataset):
-    def __init__(self, configs, extention="jpg", transform=None, target_transform=None):
+    def __init__(self, configs):
         self.configs = configs
-        self.extention = extention
         self.image_list = os.listdir(self.configs.source)
-        self.transform = transform
-        self.target_transform = target_transform
-        self.file_sorter = FileSorter()
-        _, self.image_file_paths = self.file_sorter.get_sorted_names(self.configs.source, "*." + self.extention)
+        _, self.image_file_paths = get_sorted_file_paths(self.configs.source, self.configs.image_extensions)
 
     def __len__(self):
         return len(self.image_list)
@@ -28,15 +20,14 @@ class ImageLoader(Dataset):
         return image, (int(height), int(width)), self.image_file_paths[idx]
 
 class VideoLoader(object):
-    def __init__(self, configs, extention="mp4"):
+    def __init__(self, configs):
         self.configs = configs
-        self.extention = extention
         self.video_list = os.listdir(self.configs.source)
         self.capture = None
         self.width = None  
         self.height = None
-        self.file_sorter = FileSorter()
-        _, self.video_file_paths = self.file_sorter.get_sorted_names(self.configs.source, "*." + self.extention)
+
+        _, self.video_file_paths = get_sorted_file_paths(self.configs.source, self.configs.video_extensions)
         self.__video_capture(self.video_file_paths[0])
         
     def __iter__(self):

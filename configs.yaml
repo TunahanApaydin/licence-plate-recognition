@@ -2,7 +2,9 @@ inference:
     weight: models/best.onnx                  # model path dir
     source: test_videos/                      # source dir
     image: false
+    image_extensions: ["jpg", "jpeg", "png"]
     video: true
+    video_extensions: ["mp4", "MOV", "avi", "mkv"]
     imgsz: [640, 640]                         # inference size (height, width)
     conf_thres: 0.25                          # confidence threshold
     iou_thres: 0.45                           # NMS IOU threshold
@@ -39,9 +41,12 @@ ocr:
                         , '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59', '60'
                         , '61', '62', '63', '64', '65', '66', '67', '68', '69', '70', '71', '72', '73', '74', '75', '76', '77', '78', '79', '80', '81']
 
+db:
+    database_name: registered_lp
+
 osd:
     show_result: true
-    save_result: false
+    save_result: true
     result_save_path: result_videos/
     text_scale: 2
     text_thickness: 3

@@ -14,7 +14,9 @@ class Configurations(object):
         self.conf_thres = self.inference_configs["inference"]["conf_thres"]
         self.iou_thres = self.inference_configs["inference"]["iou_thres"]
         self.device = self.inference_configs["inference"]["device"]
-
+        self.image_extensions = self.inference_configs["inference"]["image_extensions"]
+        self.video_extensions = self.inference_configs["inference"]["video_extensions"]
+        
         self.track_thresh = self.inference_configs["tracking"]["track_thresh"]
         self.track_buffer = self.inference_configs["tracking"]["track_buffer"]
         self.match_thresh = self.inference_configs["tracking"]["match_thresh"]
@@ -46,6 +48,8 @@ class Configurations(object):
         self.text_scale = self.inference_configs["osd"]["text_scale"]
         self.text_thickness = self.inference_configs["osd"]["text_thickness"]
         self.line_thickness = self.inference_configs["osd"]["line_thickness"]
+        
+        self.database_name = self.inference_configs["db"]["database_name"]
         
         print("\nConfigurations:\n")
         for key, value in self.inference_configs.items():
