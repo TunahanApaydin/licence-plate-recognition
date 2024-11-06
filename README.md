@@ -1,20 +1,8 @@
 # License Plate Recognition Project
 This project is a comprehensive system for detecting, tracking, recognizing, and validating vehicle license plates in real time. Leveraging deep learning and computer vision techniques, it accurately processes license plate information with efficient handling of multiple steps through multiprocessing. Key technologies include YOLOv9 for object detection, BYTETrack for tracking, easyOCR for text recognition, and SQLite for data management.
 
-![demo_video_thumbnail](https://github.com/user-attachments/assets/b7af0dcc-1cb8-4fdf-8e57-72de796f21d6)
-
-
-
+Demo Video:
 https://github.com/user-attachments/assets/ffd2c689-81cc-4e55-af30-321332c09ffd
-
-
-
-## Demo Video
-
-[![Watch the video - 0.4x Slow Motion](https://raw.githubusercontent.com/TunahanApaydin/licence-plate-recognition/master/demo_video/demo_video_thumbnail.png)](https://github.com/TunahanApaydin/licence-plate-recognition/raw/master/demo_video/demo_video.mp4)
-
-
-
 
 ## Project Overview
 The main objectives of this project include:
