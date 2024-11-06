@@ -3,7 +3,7 @@ This project is a comprehensive system for detecting, tracking, recognizing, and
 
 ## Demo Video
 
-[![Watch the video - 0.4x Slow Motion](https://raw.githubusercontent.com/TunahanApaydin/licence-plate-recognition/main/demo_video/demo_video_thumbnail.jpg)](https://github.com/TunahanApaydin/licence-plate-recognition/raw/main/demo_video/demo_video.mp4)
+[![Watch the video - 0.4x Slow Motion](https://raw.githubusercontent.com/TunahanApaydin/licence-plate-recognition/master/demo_video/demo_video_thumbnail.png)](https://github.com/TunahanApaydin/licence-plate-recognition/raw/master/demo_video/demo_video.mp4)
 
 
 ## Project Overview
@@ -24,6 +24,8 @@ license-plate-recognition/      # Main project folder
 ├── tracking.py                 # BYTETrack tracking code
 ├── ocr.py                      # OCR processing code using EasyOCR
 ├── database.py                 # Database-related functions for plate registration
+├── dataloader.py               # Dataloader for load images or video files
+├── file_sorter.py              # Helper functions for dataloader module
 ├── configs.py                  # Configuration settings in Python format
 ├── configs.yaml                # Configuration file for project parameters (paths, model, settings)
 ├── visualize.py                # Visualization code for displaying results
