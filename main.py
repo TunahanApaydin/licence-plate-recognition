@@ -6,7 +6,7 @@ import multiprocessing
 from ocr import OCR
 from visualize import Visualize
 from configs import Configurations
-from sqlite_db_operations import DB
+from database import DB
 from detect import YOLOv9ONNXInference
 from dataloaders import ImageLoader, VideoLoader
 
@@ -77,11 +77,6 @@ def run():
             #print("FPS: ", fps)
             
             is_registered, user = db.check_plate_in_database(table_name="users", plate=ocr_res_msg_dict_copy["licence_plate_text"])
-            
-            # if is_registered:
-            #     print("Licence Plate {} is registered to the name {} {}. Ok".format(ocr_res_msg_dict_copy["licence_plate_text"], user["first_name"], user["last_name"]))
-            # else:
-            #     print("Licence Plate {} is NOT registered. NOT Ok".format(ocr_res_msg_dict_copy["licence_plate_text"]))
             
             tracking_id = ocr_res_msg_dict_copy["tracking_ids"][0]
             

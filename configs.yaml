@@ -45,7 +45,7 @@ db:
     database_name: registered_lp
 
 osd:
-    show_result: true
+    show_result: false
     save_result: true
     result_save_path: result_videos/
     text_scale: 2

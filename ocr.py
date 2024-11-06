@@ -13,7 +13,6 @@ class OCR(object):
             with cls._lock:
                 if cls._instance is None:
                     cls._instance = super(OCR, cls).__new__(cls)
-                    print("OCR NEW")
         return cls._instance
 
     def __init__(self, configs):
