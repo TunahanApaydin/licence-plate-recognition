@@ -78,6 +78,18 @@ Before implementing multiprocessing, the system was capable of processing video 
 ### With Multiprocessing:
 By utilizing Python's multiprocessing library, we have offloaded several tasks to multiple processes, significantly improving the throughput. This approach resulted in an average processing speed of 150 FPS or higher, providing a substantial boost in efficiency. Each step of the pipeline ,license plate detection, tracking and OCR, processing concurrently, reducing the overall time required to process each frame.
 
+## Performance Benchmarks
+
+The performance benchmarks were measured on the following system configuration:
+
+| **Component**      | **Specification**                        |
+|--------------------|------------------------------------------|
+| **CPU**            | Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz |
+| **GPU**            | NVIDIA GeForce RTX 2080 Ti               |
+| **OS**             | Ubuntu 20.04 LTS                         |
+| **Python version** | 3.10.4                                   |
+
+
 ## Future Improvements
 
 Future improvements for the License Plate Recognition system include:
