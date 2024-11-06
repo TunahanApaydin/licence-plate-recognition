@@ -2,6 +2,7 @@
 This project is a comprehensive system for detecting, tracking, recognizing, and validating vehicle license plates in real time. Leveraging deep learning and computer vision techniques, it accurately processes license plate information with efficient handling of multiple steps through multiprocessing. Key technologies include YOLOv9 for object detection, BYTETrack for tracking, easyOCR for text recognition, and SQLite for data management.
 
 Demo Video:
+
 https://github.com/user-attachments/assets/ffd2c689-81cc-4e55-af30-321332c09ffd
 
 ## Project Overview
