@@ -80,7 +80,7 @@ By distributing the workload across multiple processes, the system scales effici
 Before implementing multiprocessing, the system was capable of processing video frames at an average of 30 FPS (frames per second). This was sufficient for basic functionality but became a bottleneck for larger-scale or real-time applications, especially when processing high-resolution videos or when many vehicles were in the frame.
 
 ### With Multiprocessing:
-By utilizing Python's multiprocessing library, we have offloaded several tasks to multiple processes, significantly improving the throughput. This approach resulted in an average processing speed of 150 FPS or higher, providing a substantial boost in efficiency. Each step of the pipeline ,license plate detection, tracking and OCR, processing concurrently, reducing the overall time required to process each frame.
+By utilizing Python's multiprocessing library, i have offloaded several tasks to multiple processes, significantly improving the throughput. This approach resulted in an average processing speed of 150 FPS or higher, providing a substantial boost in efficiency. Each step of the pipeline ,license plate detection, tracking and OCR, processing concurrently, reducing the overall time required to process each frame.
 
 ## Performance Benchmarks
 
