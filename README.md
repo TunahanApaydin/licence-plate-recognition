@@ -7,7 +7,7 @@ This project is a comprehensive system for detecting, tracking, recognizing, and
 
 ## Demo Video
 
-[![Watch the video - 0.4x Slow Motion](https://raw.githubusercontent.com/TunahanApaydin/licence-plate-recognition/master/demo_video/demo_video_thumbnail.png)](https://github.com/TunahanApaydin/licence-plate-recognition/raw/master/demo_video/demo_video.mp4)
+[![Watch the video - 0.4x Slow Motion](https://raw.githubusercontent.com/TunahanApaydin/licence-plate-recognition/master/demo_video/demo_video_thumbnail.png)](https://github.com/TunahanApaydin/licence-plate-recognition/master/demo_video/demo_video.mp4)
 
 
 
