@@ -57,10 +57,12 @@ license-plate-recognition/      # Main project folder
 `database.py`: Handles interactions with an SQLite database to validate recognized plates.  
 `visualize.py`: Visualizes the results, overlaying detection boxes, tracking IDs, and recognition text on video frames.  
 
-## Usage
-You can configure settings for inference, tracking, OCR, database, and OSD using the `configs.yaml` file.  For example, you can specify the path to your model file using the `weights` parameter, and the path to your input video/image with the `source` parameter. 
+## Multiprocessing Pipeline
+To ensure efficient, real-time processing, the system utilizes a multiprocessing pipeline where each core task—Inference, Tracking and OCR—operates within its own process. This modular design, combined with dedicated input/output queues, enhances the speed and performance of the license plate recognition system.
+Below is a flowchart that visualizes the entire process:
 
-Then, run `main.py`. The results will be saved to the path specified in the configuration file.
+![mp_flowchart](https://github.com/user-attachments/assets/1e97d8f6-407b-463f-a76c-c31e4266b57d)
+
 
 ## Results and Performance
 The License Plate Recognition system demonstrates significant improvements in both accuracy and performance after the integration of multiprocessing. Below are key details:
@@ -103,6 +105,11 @@ Future improvements for the License Plate Recognition system include:
 - **Extended dataset for training models** to improve the system's generalization across various environments and lighting conditions.
 
 These enhancements aim to make the system more robust, adaptable, and scalable in diverse use cases.
+
+## Usage
+You can configure settings for inference, tracking, OCR, database, and OSD using the `configs.yaml` file.  For example, you can specify the path to your model file using the `weights` parameter, and the path to your input video/image with the `source` parameter. 
+
+Then, run `main.py`. The results will be saved to the path specified in the configuration file.
 
 ## Acknowledgements
 
