@@ -1,7 +1,7 @@
 # License Plate Recognition Project
 This project is a comprehensive system for detecting, tracking, recognizing, and validating vehicle license plates in real time. Leveraging deep learning and computer vision techniques, it accurately processes license plate information with efficient handling of multiple steps through multiprocessing. Key technologies include YOLOv9 for object detection, BYTETrack for tracking, easyOCR for text recognition, and SQLite for data management.
 
-Demo Video:
+Watch the demo video - 0.5x Slow Motion:
 
 https://github.com/user-attachments/assets/ffd2c689-81cc-4e55-af30-321332c09ffd
 
@@ -87,7 +87,8 @@ The performance benchmarks were measured on the following system configuration:
 | **CPU**            | Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz |
 | **GPU**            | NVIDIA GeForce RTX 2080 Ti               |
 | **OS**             | Ubuntu 20.04 LTS                         |
-| **Python version** | 3.10.4                                   |
+| **CUDA**           | 11.7                                     |
+| **Python**         | 3.10.4                                   |
 
 
 ## Future Improvements
