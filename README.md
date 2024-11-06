@@ -35,8 +35,10 @@ license-plate-recognition/      # Main project folder
 │   └── your_model.onnx         # The trained YOLOv9 model file in ONNX format
 │
 ├── tracker/                    # Directory for tracking-related code (BYTETrack)
-│   ├── __init__.py
-│   └── byte_tracker.py         # BYTETrack code for tracking
+│   ├── byte_tracker.py         # BYTETrack code for tracking
+│   └── basetrack.py
+│   └── kalman_filter.py
+│   └── matching.py
 │
 ├── result_videos/              # Directory for result videos
 │   └── output_video.mp4        # Resulting videos after processing
